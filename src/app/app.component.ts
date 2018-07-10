@@ -42,6 +42,14 @@ getConfig() {
       console.log(`idToken: ${this.keycloakService.idToken()}`);
       console.log(`idTokenParsed: ${JSON.stringify(this.keycloakService.idTokenParsed())}`);
       console.log(`realmAccess: ${JSON.stringify(this.keycloakService.realmAccess())}`);
+      console.log(`resourceAccess: ${JSON.stringify(this.keycloakService.resourceAccess())}`);
+      console.log(`refreshToken: ${this.keycloakService.refreshToken()}`);
+      console.log(`refreshTokenParsed: ${JSON.stringify(this.keycloakService.refreshTokenParsed())}`);
+      console.log(`timeSkew: ${this.keycloakService.timeSkew()}`);
+      console.log(`responseMode: ${this.keycloakService.responseMode()}`);
+      console.log(`flow: ${this.keycloakService.flow()}`);
+      console.log(`adapter: ${this.keycloakService.adapter()}`);
+      console.log(`responseType: ${this.keycloakService.responseType()}`);
     }).catch(error => {
       console.log(error);
     });
