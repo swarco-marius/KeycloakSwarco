@@ -9,8 +9,16 @@ export class KeycloakService {
   keycloak: any;
 
   constructor() {
-    this.keycloak = Keycloak('http://localhost:4200/assets/keycloak.json');
+    // use one of the following methods to instantiate Keycloak
+
+    this.keycloak = new Keycloak();
+    // this.keycloak = new Keycloak('http://localhost:4200/keycloak.json');
+    // this.keycloak = new Keycloak({ url: 'http://localhost:8080/auth', realm: 'demo', clientId: 'primeng' });
   }
+
+  /////////////
+  // METHODS //
+  /////////////
 
   /*
     Called to initialize the adapter.
@@ -31,17 +39,161 @@ export class KeycloakService {
 
     Returns promise to set functions to be invoked on success or error.
   */
-  init(): Promise<any> {
+  init(options): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.keycloak.init({ onLoad: 'login-required' }).then(authenticated => {
-        alert(authenticated ? 'authenticated' : 'not authenticated');
+      this.keycloak.init(options).then(authenticated => {
         resolve(authenticated);
       }).catch((error) => {
-        alert('failed to initialize');
         reject(error);
       });
     });
   }
+
+  /*
+    Redirects to login form on (options is an optional object with redirectUri and/or prompt fields).
+    Options is an Object, where:
+      redirectUri - Specifies the uri to redirect to after login.
+      prompt - By default the login screen is displayed if the user is not logged-in to Keycloak.
+               To only authenticate to the application if the user is already logged-in and not display
+               the login page if the user is not logged-in, set this option to none. To always require
+               re-authentication and ignore SSO, set this option to login .
+      maxAge - Used just if user is already authenticated. Specifies maximum time since the authentication
+               of user happened. If user is already authenticated for longer time than maxAge, the SSO is
+               ignored and he will need to re-authenticate again.
+      loginHint - Used to pre-fill the username/email field on the login form.
+      scope - Used to forward the scope parameter to the Keycloak login endpoint. Use a space-delimited
+              list of scopes. Those typically reference Client scopes defined on particular client. Note
+              that the scope openid will be always be added to the list of scopes by the adapter. For example,
+              if you enter the scope options address phone, then the request to Keycloak will contain the scope
+              parameter scope=openid address phone.
+      idpHint - Used to tell Keycloak to skip showing the login page and automatically redirect to the specified
+                identity provider instead. More info in the Identity Provider documentation.
+      action - If value is 'register' then user is redirected to registration page, otherwise to login page.
+      locale - Sets the 'ui_locales' query param in compliance with section 3.1.2.1 of the OIDC 1.0 specification.
+      kcLocale - Specifies the desired Keycloak locale for the UI. This differs from the locale param in that it
+                 tells the Keycloak server to set a cookie and update the user’s profile to a new preferred locale.
+      cordovaOptions - Specifies the arguments that are passed to the Cordova in-app-browser (if applicable).
+                       Options hidden and location are not affected by these arguments. All available options are
+                       defined at https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-inappbrowser/.
+                       Example of use: { zoom: "no", hardwareback: "yes" };
+  */
+  login(options) {
+  }
+
+  /*
+    Returns the URL to login form on (options is an optional object with redirectUri and/or prompt fields).
+    Options is an Object, which supports same options like the function login .
+  */
+  createLoginUrl(options) {
+  }
+
+  /*
+    Redirects to logout.
+    Options is an Object, where:
+      redirectUri - Specifies the uri to redirect to after logout.
+  */
+  logout(options) {
+    this.keycloak.logout(options);
+  }
+
+  /*
+    Returns the URL to logout the user.
+    Options is an Object, where:
+      redirectUri - Specifies the uri to redirect to after logout.
+  */
+  createLogoutUrl(options) {
+  }
+
+  /*
+    Redirects to registration form. Shortcut for login with option action = 'register'
+    Options are same as for the login method but 'action' is set to 'register'
+  */
+  register(options) {
+  }
+
+  /*
+    Returns the url to registration page. Shortcut for createLoginUrl with option action = 'register'
+    Options are same as for the createLoginUrl method but 'action' is set to 'register'
+  */
+  createRegisterUrl(options) {
+  }
+
+  /*
+    Redirects to the Account Management Console.
+  */
+  accountManagement() {
+  }
+
+  /*
+    Returns the URL to the Account Management Console.
+  */
+  createAccountUrl() {
+  }
+
+  /*
+    Returns true if the token has the given realm role.
+  */
+  hasRealmRole(role) {
+  }
+
+  /*
+    Returns true if the token has the given role for the resource (resource is optional, if not specified clientId is used).
+  */
+  hasResourceRole(role, resource) {
+  }
+
+  /*
+    Loads the users profile.
+    Returns promise to set functions to be invoked if the profile was loaded successfully, or if the profile could not be loaded.
+    For example:
+
+      keycloak.loadUserProfile().then(function(profile) {
+              alert(JSON.stringify(test, null, "  "));
+          }).catch(function() {
+              alert('Failed to load user profile');
+          });
+  */
+  loadUserProfile() {
+  }
+
+  /*
+    Returns true if the token has less than minValidity seconds left before it expires (minValidity is optional,
+    if not specified 0 is used).
+  */
+  isTokenExpired(minValidity) {
+  }
+
+  /*
+    If the token expires within minValidity seconds (minValidity is optional, if not specified 5 is used)
+    the token is refreshed. If the session status iframe is enabled, the session status is also checked.
+    Returns promise to set functions that can be invoked if the token is still valid, or if the token is no longer valid.
+    For example:
+
+      keycloak.updateToken(5).then(function(refreshed) {
+              if (refreshed) {
+                  alert('Token was successfully refreshed');
+              } else {
+                  alert('Token is still valid');
+              }
+          }).catch(function() {
+              alert('Failed to refresh the token, or the session has expired');
+          });
+  */
+  updateToken(minValidity) {
+  }
+
+  /*
+    Clear authentication state, including tokens. This can be useful if application has detected the session was expired,
+    for example if updating token fails.
+    Invoking this results in onAuthLogout callback listener being invoked.
+  */
+  clearToken() {
+
+  }
+
+  ////////////////
+  // PROPERTIES //
+  ////////////////
 
   /*
     Is true if the user is authenticated, false otherwise.

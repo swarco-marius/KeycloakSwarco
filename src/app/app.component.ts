@@ -5,36 +5,15 @@ import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
 
   constructor(private httpClient: HttpClient, private keycloakService: KeycloakService) {
   }
 
-  configUrl = 'http://localhost:4200/assets/keycloak.json';
-
-getConfig() {
-  return this.httpClient.get(this.configUrl);
-}
-
   ngOnInit() {
-    /*
-    const options = {
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      observe: 'response'
-    };
-    this.httpClient.get('http://localhost:4200/assets/keycloak.json').subscribe(result => {
-      console.log(result);
-    }, error => {
-      console.log(error);
-    });
-    */
-
-    this.keycloakService.init().then(success => {
+    this.keycloakService.init({ onLoad: 'login-required' }).then(success => {
       console.log(`authenticated: ${this.keycloakService.authenticated()}`);
       console.log(`subjectID: ${this.keycloakService.subject()}`);
       console.log(`token: ${this.keycloakService.token()}`);
@@ -51,7 +30,15 @@ getConfig() {
       console.log(`adapter: ${this.keycloakService.adapter()}`);
       console.log(`responseType: ${this.keycloakService.responseType()}`);
     }).catch(error => {
-      console.log(error);
+      console.error(error);
     });
+  }
+
+  authenticated(): boolean {
+    return this.keycloakService.authenticated();
+  }
+
+  logout() {
+    this.keycloakService.logout({redirectUri: ''});
   }
 }
