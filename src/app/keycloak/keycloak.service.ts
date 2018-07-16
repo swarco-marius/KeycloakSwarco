@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 
-declare var Keycloak: any;
+import * as Keycloak from 'keycloak-js';
+// declare var Keycloak: any;
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,8 @@ export class KeycloakService {
   constructor() {
     // use one of the following methods to instantiate Keycloak
 
-    this.keycloak = new Keycloak();
+    this.keycloak = Keycloak();
+    // this.keycloak = new Keycloak();
     // this.keycloak = new Keycloak('http://localhost:4200/keycloak.json');
     // this.keycloak = new Keycloak({ url: 'http://localhost:8080/auth', realm: 'demo', clientId: 'primeng' });
 
