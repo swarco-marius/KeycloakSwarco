@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 
 import * as Keycloak from 'keycloak-js';
+import { HttpClient } from '@angular/common/http';
 // declare var Keycloak: any;
 
 @Injectable({
@@ -25,7 +26,7 @@ export class KeycloakService {
   tokenExpiredSource: Subject<any>;
   tokenExpired$: Observable<any>;
 
-  constructor() {
+  constructor(private httpClient: HttpClient) {
     // use one of the following methods to instantiate Keycloak
 
     this.keycloak = Keycloak();
@@ -402,5 +403,16 @@ export class KeycloakService {
   */
   responseType() {
     return this.keycloak.responseType;
+  }
+
+  request(method, url): Observable<any> {
+    const options = {
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer' + this.keycloak.token
+      }
+    };
+
+    return this.httpClient.request(method, url, options);
   }
 }

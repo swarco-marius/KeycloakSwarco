@@ -62,6 +62,14 @@ export class AppComponent implements OnInit {
       console.log(`flow: ${this.keycloakService.flow()}`);
       console.log(`adapter: ${this.keycloakService.adapter()}`);
       console.log(`responseType: ${this.keycloakService.responseType()}`);
+
+
+      this.keycloakService.request('GET', 'https://auth-dev.swarco.com/auth/')
+        .subscribe(result => {
+          console.log(result);
+        }, error => {
+          console.error(error);
+        });
     }).catch(error => {
       console.error(error);
     });
