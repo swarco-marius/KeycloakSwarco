@@ -1,2 +1,27 @@
 <button *ngIf="!authenticated()" name="loginBtn" (click)="login()">Login</button>
 <button *ngIf="authenticated()" name="logoutBtn" (click)="logout()">Logout</button>
+<br>
+<button *ngIf="authenticated()" name="createLoginUrl" (click)="createLoginUrl()">Create Login Url</button>
+<br>
+<button *ngIf="authenticated()" name="createLogoutUrl" (click)="createLogoutUrl()">Create Logout Url</button>
+<br>
+<button *ngIf="authenticated()" name="register" (click)="register()">Register</button>
+<br>
+<button *ngIf="authenticated()" name="createRegisterUrl" (click)="createRegisterUrl()">Create Register Url</button>
+<br>
+<button *ngIf="authenticated()" name="accountManagement" (click)="accountManagement()">Account Management</button>
+<br>
+<button *ngIf="authenticated()" name="createAccountUrl" (click)="createAccountUrl()">Create Account Url</button>
+<br>
+<button *ngIf="authenticated()" name="hasRealmRole" (click)="hasRealmRole()">Has realm role 'view-profile'</button>
+<br>
+<button *ngIf="authenticated()" name="hasResourceRole" (click)="hasResourceRole()">Has resource role 'view-profile'</button>
+<br>
+<button *ngIf="authenticated()" name="loadUserProfile" (click)="loadUserProfile()">Load user profile</button>
+<br>
+<button *ngIf="authenticated()" name="isTokenExpired" (click)="isTokenExpired()">Is token expired?</button>
+<br>
+<button *ngIf="authenticated()" name="updateToken" (click)="updateToken()">Updated token?</button>
+<br>
+<button *ngIf="authenticated()" name="clearToken" (click)="clearToken()">Clear token</button>
+<br>

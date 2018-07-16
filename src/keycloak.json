@@ -1,8 +1,13 @@
 {
-  "realm": "demo",
-  "auth-server-url": "http://localhost:8080/auth",
+  "realm": "swarco",
+  "auth-server-url": "https://auth-dev.swarco.com/auth",
   "ssl-required": "external",
-  "resource": "primeng",
+  "resource": "romania_aaa_angular",
   "public-client": true,
-  "confidential-port": 0
+  "enable-cors": true,
+  "confidential-port": 0,
+  "clientId": "romania_aaa_angular",
+  "credentials": {
+    "secret": "997c19a3-519b-46bf-8c91-d02752cdb44e"
+  }
 }

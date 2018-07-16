@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 
 declare var Keycloak: any;
 
@@ -8,12 +9,79 @@ declare var Keycloak: any;
 export class KeycloakService {
   keycloak: any;
 
+  readySource: Subject<any>;
+  ready$: Observable<any>;
+  authSuccessSource: Subject<any>;
+  authSuccess$: Observable<any>;
+  authErrorSource: Subject<any>;
+  authError$: Observable<any>;
+  authRefreshSuccessSource: Subject<any>;
+  authRefreshSuccess$: Observable<any>;
+  authRefreshErrorSource: Subject<any>;
+  authRefreshError$: Observable<any>;
+  authLogoutSource: Subject<any>;
+  authLogout$: Observable<any>;
+  tokenExpiredSource: Subject<any>;
+  tokenExpired$: Observable<any>;
+
   constructor() {
     // use one of the following methods to instantiate Keycloak
 
     this.keycloak = new Keycloak();
     // this.keycloak = new Keycloak('http://localhost:4200/keycloak.json');
     // this.keycloak = new Keycloak({ url: 'http://localhost:8080/auth', realm: 'demo', clientId: 'primeng' });
+
+    this.readySource = new Subject();
+    this.ready$ = this.readySource.asObservable();
+
+    this.authSuccessSource = new Subject();
+    this.authSuccess$ = this.authSuccessSource.asObservable();
+
+    this.authErrorSource = new Subject();
+    this.authError$ = this.authErrorSource.asObservable();
+
+    this.authRefreshSuccessSource = new Subject();
+    this.authRefreshSuccess$ = this.authRefreshSuccessSource.asObservable();
+
+    this.authRefreshErrorSource = new Subject();
+    this.authRefreshError$ = this.authRefreshErrorSource.asObservable();
+
+    this.authLogoutSource = new Subject();
+    this.authLogout$ = this.authLogoutSource.asObservable();
+
+    this.tokenExpiredSource = new Subject();
+    this.tokenExpired$ = this.tokenExpiredSource.asObservable();
+
+    /////////////////////
+    // callback events //
+    /////////////////////
+    this.keycloak.onReady = () => {
+      this.readySource.next();
+     };
+
+    this.keycloak.onAuthSuccess = () => {
+      this.authSuccessSource.next();
+    };
+
+    this.keycloak.onAuthError = () => {
+      this.authErrorSource.next();
+    };
+
+    this.keycloak.onAuthRefreshSuccess = () => {
+      this.authRefreshSuccessSource.next();
+    };
+
+    this.keycloak.onAuthRefreshError = () => {
+      this.authRefreshErrorSource.next();
+    };
+
+    this.keycloak.onAuthLogout = () => {
+      this.authLogoutSource.next();
+    };
+
+    this.keycloak.onTokenExpired = () => {
+      this.tokenExpiredSource.next();
+    };
   }
 
   /////////////
@@ -77,14 +145,16 @@ export class KeycloakService {
                        defined at https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-inappbrowser/.
                        Example of use: { zoom: "no", hardwareback: "yes" };
   */
-  login(options) {
+  login(options?) {
+    this.keycloak.login(options);
   }
 
   /*
     Returns the URL to login form on (options is an optional object with redirectUri and/or prompt fields).
     Options is an Object, which supports same options like the function login .
   */
-  createLoginUrl(options) {
+  createLoginUrl(options?) {
+    return this.keycloak.createLoginUrl(options);
   }
 
   /*
@@ -102,6 +172,7 @@ export class KeycloakService {
       redirectUri - Specifies the uri to redirect to after logout.
   */
   createLogoutUrl(options) {
+    return this.keycloak.createLogoutUrl(options);
   }
 
   /*
@@ -109,6 +180,7 @@ export class KeycloakService {
     Options are same as for the login method but 'action' is set to 'register'
   */
   register(options) {
+    this.keycloak.register(options);
   }
 
   /*
@@ -116,30 +188,35 @@ export class KeycloakService {
     Options are same as for the createLoginUrl method but 'action' is set to 'register'
   */
   createRegisterUrl(options) {
+    return this.keycloak.createRegisterUrl(options);
   }
 
   /*
     Redirects to the Account Management Console.
   */
   accountManagement() {
+    this.keycloak.accountManagement();
   }
 
   /*
     Returns the URL to the Account Management Console.
   */
   createAccountUrl() {
+    return this.keycloak.createAccountUrl();
   }
 
   /*
     Returns true if the token has the given realm role.
   */
   hasRealmRole(role) {
+    return this.keycloak.hasRealmRole(role);
   }
 
   /*
     Returns true if the token has the given role for the resource (resource is optional, if not specified clientId is used).
   */
-  hasResourceRole(role, resource) {
+  hasResourceRole(role, resource?) {
+    return this.keycloak.hasResourceRole(role, resource);
   }
 
   /*
@@ -153,14 +230,23 @@ export class KeycloakService {
               alert('Failed to load user profile');
           });
   */
-  loadUserProfile() {
+  loadUserProfile(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.keycloak.loadUserProfile().then((profile) => {
+        resolve(profile);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+    });
   }
 
   /*
     Returns true if the token has less than minValidity seconds left before it expires (minValidity is optional,
     if not specified 0 is used).
   */
-  isTokenExpired(minValidity) {
+  isTokenExpired(minValidity?) {
+    return this.keycloak.isTokenExpired(minValidity);
   }
 
   /*
@@ -179,7 +265,16 @@ export class KeycloakService {
               alert('Failed to refresh the token, or the session has expired');
           });
   */
-  updateToken(minValidity) {
+  updateToken(minValidity?): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.keycloak.updateToken(minValidity)
+        .then(refreshed => {
+          resolve(refreshed);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
   }
 
   /*
@@ -188,7 +283,7 @@ export class KeycloakService {
     Invoking this results in onAuthLogout callback listener being invoked.
   */
   clearToken() {
-
+    this.keycloak.clearToken();
   }
 
   ////////////////
