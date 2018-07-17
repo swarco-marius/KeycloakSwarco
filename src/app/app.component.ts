@@ -63,10 +63,14 @@ export class AppComponent implements OnInit {
       console.log(`adapter: ${this.keycloakService.adapter()}`);
       console.log(`responseType: ${this.keycloakService.responseType()}`);
 
+    // const url = 'https://auth-dev.swarco.com/auth/realms/swarco/account';
+    // const url = 'https://auth-dev.swarco.com/auth/realms/swarco/.well-known/openid-configuration';
 
-    // this.keycloakService.request('GET', 'https://auth.swarco.cloud/auth/realms/swarco/account')
-    // MERGE    this.keycloakService.request('GET', 'https://auth-dev.swarco.com/auth/realms/swarco/account')
-    this.keycloakService.request('GET', 'https://auth-dev.swarco.com/auth/admin/realms/swarco/users')
+    // working API directly from the frontend client
+    const url = 'http://localhost:8080/auth/realms/demo/account';
+    // const url = 'http://localhost:8080/auth/realms/demo/.well-known/openid-configuration';
+
+    this.keycloakService.request('GET', url)
         .subscribe(result => {
           console.log(result);
         }, error => {

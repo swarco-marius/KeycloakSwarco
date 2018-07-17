@@ -1,0 +1,9 @@
+{
+  "realm": "swarco",
+  "auth-server-url": "https://auth-dev.swarco.com/auth",
+  "ssl-required": "external",
+  "resource": "romania_aaa_angular",
+  "public-client": true,
+  "confidential-port": 0,
+  "clientId": "romania_aaa_angular"
+}
