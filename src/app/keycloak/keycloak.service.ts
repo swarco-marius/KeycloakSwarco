@@ -408,8 +408,9 @@ export class KeycloakService {
   request(method, url): Observable<any> {
     const options = {
       headers: {
+        'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': 'Bearer' + this.keycloak.token
+        'Authorization': 'Bearer ' + this.keycloak.token
       }
     };
 
