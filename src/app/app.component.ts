@@ -64,7 +64,9 @@ export class AppComponent implements OnInit {
       console.log(`responseType: ${this.keycloakService.responseType()}`);
 
 
-      this.keycloakService.request('GET', 'https://auth-dev.swarco.com/auth/')
+    // this.keycloakService.request('GET', 'https://auth.swarco.cloud/auth/realms/swarco/account')
+    // MERGE    this.keycloakService.request('GET', 'https://auth-dev.swarco.com/auth/realms/swarco/account')
+    this.keycloakService.request('GET', 'https://auth-dev.swarco.com/auth/admin/realms/swarco/users')
         .subscribe(result => {
           console.log(result);
         }, error => {

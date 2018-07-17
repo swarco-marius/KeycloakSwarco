@@ -4,10 +4,6 @@
   "ssl-required": "external",
   "resource": "romania_aaa_angular",
   "public-client": true,
-  "enable-cors": true,
   "confidential-port": 0,
-  "clientId": "romania_aaa_angular",
-  "credentials": {
-    "secret": "997c19a3-519b-46bf-8c91-d02752cdb44e"
-  }
+  "clientId": "romania_aaa_angular"
 }
