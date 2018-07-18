@@ -63,12 +63,26 @@ export class AppComponent implements OnInit {
       console.log(`adapter: ${this.keycloakService.adapter()}`);
       console.log(`responseType: ${this.keycloakService.responseType()}`);
 
-    // const url = 'https://auth-dev.swarco.com/auth/realms/swarco/account';
-    // const url = 'https://auth-dev.swarco.com/auth/realms/swarco/.well-known/openid-configuration';
 
-    // working API directly from the frontend client
-    const url = 'http://localhost:8080/auth/realms/demo/account';
-    // const url = 'http://localhost:8080/auth/realms/demo/.well-known/openid-configuration';
+      this.getRealmServices();
+
+      this.getAccountService();
+
+      this.getRealms();
+
+      this.getRealm();
+
+      this.getUsers();
+
+      this.editDemo();
+
+    }).catch(error => {
+      console.error(error);
+    });
+  }
+
+  getRealm() {
+    const url = 'http://localhost:8080/auth/admin/realms/demo';
 
     this.keycloakService.request('GET', url)
         .subscribe(result => {
@@ -76,9 +90,76 @@ export class AppComponent implements OnInit {
         }, error => {
           console.error(error);
         });
-    }).catch(error => {
-      console.error(error);
-    });
+  }
+
+  getRealms() {
+    const url = 'http://localhost:8080/auth/admin/realms';
+
+    this.keycloakService.request('GET', url)
+        .subscribe(result => {
+          console.log(result);
+        }, error => {
+          console.error(error);
+        });
+  }
+
+  getUsers() {
+    const url = 'http://localhost:8080/auth/admin/realms/demo/users';
+
+    this.keycloakService.request('GET', url)
+        .subscribe(result => {
+          console.log(result);
+        }, error => {
+          console.error(error);
+        });
+  }
+
+  getRealmServices() {
+    // const url = 'https://auth-dev.swarco.com/auth/realms/swarco/account';
+    // const url = 'https://auth-dev.swarco.com/auth/realms/swarco/.well-known/openid-configuration';
+
+    // working API directly from the frontend client
+    // let url = 'http://localhost:8080/auth/realms/demo/account';
+    // const url = 'http://localhost:8080/auth/realms/demo/.well-known/openid-configuration';
+    const url = 'http://localhost:8080/auth/realms/demo';
+
+    this.keycloakService.request('GET', url)
+        .subscribe(result => {
+          console.log(result);
+        }, error => {
+          console.error(error);
+        });
+  }
+
+  getAccountService() {
+    const url = 'http://localhost:8080/auth/realms/demo/account';
+
+    this.keycloakService.request('GET', url)
+        .subscribe(result => {
+          console.log(result);
+        }, error => {
+          console.error(error);
+        });
+  }
+
+  editDemo() {
+
+    const url = 'http://localhost:8080/auth/realms/demo/account';
+    // const url = 'http://localhost:8080/auth/realms/demo/.well-known/openid-configuration';
+
+    const body = new FormData();
+    body.append('stateChecker', 'ZJIgHTXY9TvzW8sD5R292RLXuLfzsDdhXiNULJ-ah_E');
+    body.append('email', 's@d.ro');
+    body.append('firstName', 'cucu');
+    body.append('lastName', 'bau');
+    body.append('submitAction', 'Save');
+
+    this.keycloakService.request('POST', url, body)
+        .subscribe(result => {
+          console.log(result);
+        }, error => {
+          console.error(error);
+        });
   }
 
   login() {

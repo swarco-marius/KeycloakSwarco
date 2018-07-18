@@ -405,8 +405,9 @@ export class KeycloakService {
     return this.keycloak.responseType;
   }
 
-  request(method, url): Observable<any> {
+  request(method, url, body?): Observable<any> {
     const options = {
+      body: body,
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
